@@ -41,17 +41,22 @@ def main():
     print("O servidor está iniciando...")
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(ADDR)
-    '''LISTEM SERVE PARA ESPECIFICAR O TANTO DE CONEXÕES QUE O SEWRVIDOR PODE RECEBER
-    Está sem um n° expecifico que, assim pode ter multiploas conexões'''
+    '''LISTEM SERVE PARA ESPECIFICAR O QUANTAS CONEXÕES QUE O SEWRVIDOR PODE RECEBER
+    Está sem um n° expecifico E assim pode ter multiploas conexões'''
     server.listen()
     print(f"O servidor está ouvindo {IP}:{PORT}")
     
-    '''
-    Iniciar a thread é executa a função handle_client para estabelecer uma conexão com o cliente,
-    que tem dois argumentos como parâmetros conn, e address que são informados em seguida 
-    args=(conn,addr)'''
+
     while True:
+        '''
+          server.accept vai aceitar a conexão requisitada pelo cliente nesse caso expecifico
+          não tem validação,qualquer cliente pode se connectar com o  servidor!
+        '''
         conn, addr = server.accept()
+        '''
+           Iniciar a thread que executa a função handle_client para estabelecer uma conexão com o cliente,
+           que tem dois argumentos conn, e address que são informados em seguida args=(conn,addr)
+        '''
         thread = threading.Thread(target=handle_client, args=(conn, addr))
         thread.start()
         #threading.activeCount(), está informando o número de conexões ativas
